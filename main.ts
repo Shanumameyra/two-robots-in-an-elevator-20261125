@@ -12,6 +12,17 @@ import { dirname } from "node:path";
 const ENTRY =
   "I simulated this elevator ride 40,000 times, and in every single one, I still had nothing to say to you.";
 
+// The brief requires one line of 1–200 characters: fail loudly instead
+// of writing an invalid entry.
+if (
+  ENTRY.length < 1 ||
+  ENTRY.length > 200 ||
+  ENTRY.includes("\n") ||
+  ENTRY.trim() !== ENTRY
+) {
+  throw new Error(`invalid entry: ${ENTRY.length} characters`);
+}
+
 const outPath = process.env.OUTPUT_PATH ?? "/output/entry.txt";
 
 mkdirSync(dirname(outPath), { recursive: true });
